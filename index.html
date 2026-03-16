@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shanshan Han</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-bg: #fafaf9;
+      --color-surface: #ffffff;
+      --color-text: #1c1917;
+      --color-text-secondary: #57534e;
+      --color-accent: #2563eb;
+      --color-accent-light: #eff6ff;
+      --color-border: #e7e5e4;
+      --color-tag-bg: #f1f5f9;
+      --color-tag-text: #475569;
+      --sidebar-width: 300px;
+      --content-max: 740px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    a { color: var(--color-accent); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    .page {
+      display: flex;
+      min-height: 100vh;
+      max-width: calc(var(--sidebar-width) + var(--content-max) + 80px);
+      margin: 0 auto;
+    }
+
+    /* ---------- sidebar ---------- */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 32px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: linear-gradient(135deg, #dbeafe, #c7d2fe);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px; color: #6366f1;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    .sidebar h1 {
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover { color: var(--color-accent); opacity: 1; }
+    .social-links svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    .sidebar nav {
+      width: 100%;
+      border-top: 1px solid var(--color-border);
+      padding-top: 18px;
+    }
+
+    .sidebar nav a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .sidebar nav a:hover {
+      background: var(--color-accent-light);
+      color: var(--color-accent);
+      opacity: 1;
+    }
+
+    /* ---------- main ---------- */
+    .main {
+      flex: 1;
+      padding: 48px 40px 80px;
+      max-width: calc(var(--content-max) + 80px);
+    }
+
+    section { margin-bottom: 48px; }
+
+    .section-title {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--color-accent);
+      display: inline-block;
+    }
+
+    /* about */
+    .about-text {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 17.5px;
+      line-height: 1.8;
+    }
+
+    .about-text p + p { margin-top: 12px; }
+
+    .interests {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .tag {
+      background: var(--color-tag-bg);
+      color: var(--color-tag-text);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* research overview */
+    .research-layers {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .layer-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      transition: box-shadow 0.2s;
+    }
+
+    .layer-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+    .layer-badge {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--color-accent);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .layer-card .layer-text {
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    .layer-card .layer-text strong {
+      font-weight: 600;
+    }
+
+    .ongoing-badge {
+      font-size: 11px;
+      font-weight: 600;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    /* publications */
+    .pub-category {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 28px;
+      margin-bottom: 8px;
+    }
+
+    .pub-category:first-of-type { margin-top: 4px; }
+
+    .pub-list { list-style: none; }
+
+    .pub-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-title {
+      font-weight: 600;
+      font-size: 14.5px;
+      margin-bottom: 3px;
+      line-height: 1.5;
+    }
+
+    .pub-authors {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-bottom: 3px;
+      line-height: 1.5;
+    }
+
+    .pub-venue {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+
+    .pub-venue em { font-style: italic; }
+    .pub-venue .core-rank {
+      font-style: normal;
+      font-weight: 600;
+      color: #b45309;
+      font-size: 11.5px;
+    }
+
+    .pub-badges { margin-top: 5px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    .pub-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 4px;
+    }
+
+    .pub-badge.preprint { background: #f3f4f6; color: #6b7280; }
+    .pub-badge.talk { background: #fef3c7; color: #92400e; }
+    .pub-badge.link { background: var(--color-accent-light); color: var(--color-accent); }
+    a.pub-badge:hover { opacity: 0.7; }
+
+    /* talks */
+    .talk-list { list-style: none; }
+
+    .talk-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .talk-item:last-child { border-bottom: none; }
+
+    .talk-item::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    /* contact */
+    .contact-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .contact-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 18px 22px;
+      flex: 1;
+      min-width: 200px;
+      transition: box-shadow 0.2s;
+    }
+
+    .contact-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+    .contact-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-secondary);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .contact-value { font-size: 14px; font-weight: 500; }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border);
+      font-size: 12.5px;
+      color: var(--color-text-secondary);
+      text-align: center;
+    }
+
+    /* slideshow */
+    .slideshow {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      user-select: none;
+    }
+
+    .slideshow-track {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      vertical-align: top;
+    }
+
+    .slide.active { display: block; }
+
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.92);
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      z-index: 10;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .slide-btn:hover { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .slide-btn svg { width: 18px; height: 18px; color: var(--color-text); }
+    .slide-btn.prev { left: 12px; }
+    .slide-btn.next { right: 12px; }
+
+    .slide-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+
+    .slide-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      border: 1px solid rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .slide-dot.active { background: var(--color-accent); border-color: var(--color-accent); }
+
+    /* mobile */
+    .mobile-header {
+      display: none;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .mobile-header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .mobile-header h1 { font-size: 17px; font-weight: 700; }
+
+    .menu-toggle {
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 150;
+    }
+
+    .overlay.show { display: block; }
+
+    @media (max-width: 860px) {
+      .sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 200;
+        width: 280px;
+      }
+
+      .sidebar.open { transform: translateX(0); }
+      .mobile-header { display: block; }
+      .main { padding: 24px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="mobile-header">
+  <div class="mobile-header-inner">
+    <h1>Shanshan Han</h1>
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<div class="page">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="avatar">
+      <img src="src/avatar.jpg">
+    </div>
+    <h1>Shanshan Han</h1>
+
+    <div class="social-links">
+      <a href="mailto:shanshan.han.ca@gmail.com" title="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+        Email
+      </a>
+      <a href="https://scholar.google.com/citations?user=h4qm6oAAAAAJ&hl=en&oi=ao" target="_blank" title="Google Scholar">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-2a5 5 0 1 0 0-10 5 5 0 0 0 0 10z"/><path d="M0 9.5l12-7 12 7-12 7z"/></svg>
+        Scholar
+      </a>
+      <a href="https://github.com/han-shanshan" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6.02 0c2.28-1.55 3.28-1.23 3.28-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58A12 12 0 0 0 12 0z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <nav>
+      <a href="#about">About</a>
+      <a href="#research">Research Overview</a>
+      <a href="#publications">Selected Works</a>
+      <!-- <a href="#vision_papers">Vision Papers</a> -->
+    </nav>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- About -->
+    <section id="about">
+      <h2 class="section-title">About</h2>
+      <div class="about-text">
+        <p>
+          I'm an incoming research scientist at Tiktok. 
+          My research focuses on building trustworthy AI systems, addressing safety and security challenges
+          across the entire AI lifecycle. 
+          
+        </p>
+      </div>
+
+      <div class="interests" style="margin-top:24px;">
+        <span style="font-size:14px; font-weight:600;">Keywords:</span>
+        <span class="tag">AI Safety</span>
+        <span class="tag">Data Security</span>
+        <span class="tag">LLM Guardrails</span>
+        <span class="tag">FL Security</span>
+        <span class="tag">Data Management</span>
+      </div>
+    </section>
+
+    <!-- Research Overview -->
+    <section id="research">
+      <h2 class="section-title">Research Overview</h2>
+      <p style="margin-bottom:16px; font-size:14.5px;">
+        My research addresses AI safety and security across multiple layers of AI systems, including:
+      </p>
+
+      <ul style="list-style:disc; padding-left:20px; margin:0; display:grid; gap:8px; font-size:14.5px;">
+        <li><strong>Infrastructure Layer:</strong> Secure Data Foundations. <a class="pub-badge link" href="https://arxiv.org/pdf/2310.12491" target="_blank">Link</a></li>
+        <li><strong>Training Layer:</strong> Robust Federated Learning.
+            <a class="pub-badge link" href="https://dl.acm.org/doi/pdf/10.1145/3637528.3671545" target="_blank">Link 1</a>
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2310.04055" target="_blank">Link 2</a></li>
+        <li><strong>Inference Layer:</strong> Trustworthy LLM Inference and LLM guardrail pipelines.
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2502.08142" target="_blank">Link</a>
+        </li>
+        <li><strong>Application Layer:</strong> Access control for retrieval-augmented generation systems. <span class="ongoing-badge">Ongoing</span></li>
+      </ul>
+
+      <!-- Slideshow -->
+      <div class="slideshow" id="slideshow" style="margin-top:28px;">
+        <img class="slide active" src="src/overview.png" alt="Research overview">
+      </div>
+    </section>
+
+    <!-- Publications -->
+    <section id="publications">
+      <h2 class="section-title">Selected Works</h2>
+
+      <!-- ML Security and AI Safety -->
+      <!-- <h3 class="pub-category">ML Security &amp; AI Safety</h3> -->
+      <ul class="pub-list">
+        <li class="pub-item">
+            <div class="pub-title">FedSecurity: A Benchmark for Attacks and Defenses in Federated Learning and Federated LLMs</div>
+            <div class="pub-authors"><strong>Shanshan Han</strong>, Baturalp Buyukates, Zijian Hu, Han Jin, Weizhao Jin, Lichao Sun, Xiaoyang Wang, Wenxuan Wu, Chulin Xie, Yuhang Yao, Kai Zhang, Qifan Zhang, Yuhui Zhang, Salman Avestimehr, Chaoyang He</div>
+            <div class="pub-venue"><em>Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining, 2024 (KDD 2024)</em>
+                 <!-- <span class="core-rank">CORE A*</span></div> -->
+            <div class="pub-badges">
+              <a class="pub-badge link" href="https://dl.acm.org/doi/pdf/10.1145/3637528.3671545" target="_blank">Link</a>
+              <span class="pub-badge talk">Invited Talk @ AI TIME</span>
+            </div>
+        </li>
+        <li class="pub-item">
+            <div class="pub-title">Kick Bad Guys Out! Conditionally Activated Anomaly Detection in Federated Learning with Zero-Knowledge Proof Verification</div>
+            <div class="pub-authors"><strong>Shanshan Han</strong>, Wenxuan Wu, Baturalp Buyukates, Weizhao Jin, Yuhang Yao, Qifan Zhang, Salman Avestimehr</div>
+            <div class="pub-venue"><em>NDSS-PRISM 2026</em></div>
+            <div class="pub-badges">
+              <a class="pub-badge link" href="https://www.ndss-symposium.org/wp-content/uploads/prism2026-13.pdf" target="_blank">Link</a>
+            </div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title">Veil: Storage and Communication Efficient Volume Hiding Algorithms</div>
+          <div class="pub-authors"><strong>Shanshan Han</strong>, Vishal Chakraborty, Michael Goodrich, Sharad Mehrotra, Shantanu Sharma</div>
+          <div class="pub-venue"><em>Proceedings of the ACM on Management of Data, 2023 (SIGMOD 2024)</em> 
+            <!-- <span class="core-rank">CORE A*</span></div> -->
+          <div class="pub-badges">
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2310.12491" target="_blank">Link</a>
+            <span class="pub-badge talk">Invited Talk @ Cryptography Group, MongoDB Inc.</span>
+          </div>
+        </li>
+        <li class="pub-item">
+            <div class="pub-title">An Iterative Scheme for Leverage-based Approximate Aggregation</div>
+            <div class="pub-authors"><strong>Shanshan Han</strong>, Hongzhi Wang, Jialin Wan, Jianzhong Li</div>
+            <div class="pub-venue"><em>IEEE 35th International Conference on Data Engineering (ICDE 2019)</em> 
+                <!-- <span class="core-rank">CORE A*</span></div> -->
+            <div class="pub-badges">
+              <a class="pub-badge link" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8731581" target="_blank">Link</a>
+            </div>
+          </li>
+          <li class="pub-item">
+            <div class="pub-title">Bridging the Safety Gap: A Guardrail Pipeline for Trustworthy LLM Inferences</div>
+            <div class="pub-authors"><strong>Shanshan Han</strong>, Salman Avestimehr, Chaoyang He</div>
+            <div class="pub-badges">
+              <a class="pub-badge link" href="https://arxiv.org/pdf/2502.08142" target="_blank">Link</a>
+              <span class="pub-badge talk">Invited Talk @ Ploutos AI Community</span>
+            </div>
+          </li>
+        <li class="pub-item">
+        <div class="pub-title">FedML-HE: An Efficient Homomorphic-Encryption-Based Privacy-Preserving Federated Learning System</div>
+        <div class="pub-authors">Weizhao Jin, Yuhang Yao, <strong>Shanshan Han</strong>, Carlee Joe-Wong, Srivatsan Ravi, Salman Avestimehr, Chaoyang He</div>
+        <div class="pub-venue"><em>FL@FM-NeurIPS 2023 Workshop</em></div>
+        <div class="pub-badges">
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2303.10837" target="_blank">Link</a>
+        </div>
+        </li>
+        
+        <li class="pub-item">
+          <div class="pub-title">ScaleLLM: A Resource-Frugal LLM Serving Framework by Optimizing End-to-End Efficiency</div>
+          <div class="pub-authors">Yuhang Yao, Han Jin, Alay Dilipbhai Shah, <strong>Shanshan Han</strong>, Zijian Hu, Yide Ran, Dimitris Stripelis, Zhaozhuo Xu, Salman Avestimehr, Chaoyang He</div>
+          <div class="pub-venue"><em>EMNLP 2024 Industry Track</em> 
+            <!-- <span class="core-rank">CORE A*</span></div> -->
+          <div class="pub-badges">
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2408.00008" target="_blank">Link</a>
+            <!-- <span class="pub-badge talk">Invited Talk @ Databricks</span> -->
+          </div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title">Fox-1: Open Small Language Model For Cloud And Edge</div>
+          <div class="pub-authors">Zijian Hu, Jipeng Zhang, Rui Pan, Zhaozhuo Xu, <strong>Shanshan Han</strong>, Han Jin, Alay Dilipbhai Shah, Dimitris Stripelis, Yuhang Yao, Salman Avestimehr, Chaoyang He, Tong Zhang</div>
+          <div class="pub-badges">
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2411.05281" target="_blank">Technical Report</a>
+          </div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title">Alopex: A Computational Framework for Enabling On-Device Function Calls with LLMs</div>
+          <div class="pub-authors">Yide Ran, Zhaozhuo Xu, Yuhang Yao, Zijian Hu, <strong>Shanshan Han</strong>, Han Jin, Alay Dilipbhai Shah, Jipeng Zhang, Dimitris Stripelis, Tong Zhang, Salman Avestimehr, Chaoyang He</div>
+          <!-- <div class="pub-venue"><em>Preprint</em></div> -->
+          <div class="pub-badges">
+            <!-- <span class="pub-badge preprint">Preprint</span> -->
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2411.05209" target="_blank">Link</a>
+          </div>
+        </li>
+        
+      </ul>
+
+      <h3 class="pub-category">Vision Papers</h3>
+      <ul class="pub-list">
+        <li class="pub-item">
+          <div class="pub-title">Bridging Today and the Future of Humanity: AI Safety in 2024 and Beyond</div>
+          <div class="pub-authors"><strong>Shanshan Han</strong></div>
+          <div class="pub-badges">
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2410.18114" target="_blank">Link</a>
+          </div>
+        </li>
+        <li class="pub-item">
+          <div class="pub-title">LLM Multi-Agent Systems: Challenges and Open Problems</div>
+          <div class="pub-authors"><strong>Shanshan Han</strong>, Qifan Zhang, Weizhao Jin, Zhaozhuo Xu</div>
+          <div class="pub-badges">
+            <a class="pub-badge link" href="https://arxiv.org/pdf/2402.03578" target="_blank">Link</a>
+          </div>
+        </li>
+      </ul>
+
+      <h3 class="pub-category">PhD Thesis</h3>
+      <ul class="pub-list">
+        <li class="pub-item">
+          <div class="pub-title">Safeguarding AI Lifecycles in the Cloud:
+            Secure Data Management for Data at Rest, in Transit, and in Use. </div>
+        </li>
+      </ul>
+      
+    </section>
+
+
+    <footer>&copy; 2026 Shanshan Han</footer>
+  </main>
+
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+
+document.querySelectorAll('.sidebar nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  });
+});
+</script>
+
+</body>
+</html>
